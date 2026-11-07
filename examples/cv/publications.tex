@@ -1,0 +1,35 @@
+%-------------------------------------------------------------------------------
+%	SECTION TITLE
+%-------------------------------------------------------------------------------
+\cvsection{Publications}
+
+%-------------------------------------------------------------------------------
+%	CONTENT
+%-------------------------------------------------------------------------------
+\begin{cventries}
+
+%---------------------------------------------------------
+  \cventry
+    {\textbf{Canjia Huang}, Juan Cao\textsuperscript{*}, Bailin Deng, Jiangbo Huang, Ge Yin, Zhonggui Chen}
+    {\href{https://dl.acm.org/doi/10.1145/3832781}{Efficient Offset Mesh Generation with Preserved Features and Boundaries}}
+    {\href{https://dl.acm.org/journal/tog}{ACM Transactions on Graphics}}
+    {Sep. 14, 2026}
+    {
+        \begin{cvitems}
+            \item {Mesh offsetting plays a pivotal role in CAD/CAM applications. This article introduces an efficient method for generating high-precision, predominantly topologically correct offset meshes from triangular meshes, employing direct offset and point representation. By offsetting sampled points of the input triangular mesh along multiple normals, we create points on a superset of the offset surface. Subsequent feature enhancement captures and enhances features on the point set, facilitating the tailored restricted power diagram-based reconstruction of the offset surface and features. Benchmarking on public datasets, along with comprehensive comparisons with state-of-the-art methods, demonstrates the accuracy, effectiveness, and robustness of our approach. Experimental results showcase its capability to handle diverse models and support arbitrary offset distances, producing predominantly topologically correct offset meshes with small approximation errors while preserving sharp features and open boundaries–even in challenging regions such as thin plates and thin tubular structures.}
+        \end{cvitems}
+    }
+
+\cventry
+    {Xiaoyang Yu, \textbf{Canjia Huang}, Zhonggui Chen, Juan Cao\textsuperscript{*}}
+    {\href{https://arxiv.org/abs/2603.12820}{NeurFrame: Learning Continuous Frame Fields for Structured Mesh Generation}}
+    {\href{https://arxiv.org}{arXiv}}
+    {Mar. 13, 2026}
+    {
+        \begin{cvitems}
+            \item {Structured meshes, composed of quadrilateral elements in 2D and hexahedral elements in 3D, are widely used in industrial applications and engineering simulations due to their regularity and superior accuracy in finite element analysis. Generating high-quality structured meshes, however, remains challenging, especially for complex geometries and singularities. Field-guided approaches, which construct cross fields in 2D and frame fields in 3D to encode element orientation, are promising but are typically defined on discrete meshes, limiting continuity and computational efficiency. To address these challenges, we introduce \emph{NeurFrame}, a neural framework that represents frame fields continuously over the domain, supporting infinite-resolution evaluation. Trained in a self-supervised manner on discrete mesh samples, NeurFrame produces smooth, high-quality frame fields without relying on dense tetrahedral discretizations. The resulting fields simultaneously guide high-quality quadrilateral surface meshes and hexahedral volumetric meshes, with fewer and better-distributed singularities. By using a single network, NeurFrame also achieves lower computational cost compared to prior self-supervised neural methods that jointly optimize multiple fields.}
+        \end{cvitems}
+    }
+
+%---------------------------------------------------------
+\end{cventries}
