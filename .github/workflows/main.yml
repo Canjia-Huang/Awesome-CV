@@ -16,6 +16,8 @@ on:
 
 permissions:
   contents: read
+  pages: write      # publish the built PDF to GitHub Pages
+  id-token: write   # OIDC token required by actions/deploy-pages
 
 # A new push cancels the run that is still building the previous commit.
 concurrency:
@@ -44,3 +46,37 @@ jobs:
         name: cv
         path: build/cv.pdf
         if-no-files-found: error
+
+    # Publish build/cv.pdf as a stable URL:
+    # https://canjia-huang.github.io/Awesome-CV/cv.pdf
+    - name: Stage Pages site
+      run: |
+        mkdir -p site
+        cp build/cv.pdf site/cv.pdf
+        cat > site/index.html <<'HTML'
+        <!doctype html>
+        <meta charset="utf-8">
+        <title>Canjia Huang - CV</title>
+        <meta http-equiv="refresh" content="0; url=cv.pdf">
+        <p><a href="cv.pdf">Canjia Huang - Curriculum Vitae (PDF)</a></p>
+        HTML
+
+    - name: Upload Pages artifact
+      uses: actions/upload-pages-artifact@v5
+      with:
+        path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    # Never cancel a deployment halfway through; queue it instead.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v5

@@ -88,6 +88,13 @@ on every push to `master` that touches the CV sources or the build files
 build instead of queueing. The workflow can also be started manually from the
 Actions tab.
 
+The same run publishes `cv.pdf` to GitHub Pages at
+<https://canjia-huang.github.io/Awesome-CV/cv.pdf> — a stable link that always
+serves the PDF from the latest successful `master` build. The site root
+redirects to it. Pages must be enabled once under **Settings → Pages → Build and
+deployment → Source: GitHub Actions**; on Free plans a private repository cannot
+publish Pages, and switching the repository to private unpublishes the site.
+
 ### Editor
 
 Open the repository root in VS Code with the recommended
