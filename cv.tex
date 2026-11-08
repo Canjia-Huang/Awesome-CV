@@ -1,11 +1,11 @@
 %!TEX TS-program = lualatex
 %!TEX encoding = UTF-8 Unicode
-% Awesome CV LaTeX Template for CV/Resume
+% Personal CV of Canjia Huang
 %
-% This template has been downloaded from:
+% Based on the Awesome CV LaTeX template:
 % https://github.com/posquit0/Awesome-CV
 %
-% Author:
+% Template author:
 % Claud D. Park <posquit0.bj@gmail.com>
 % http://www.posquit0.com
 %
@@ -16,7 +16,7 @@
 
 %-------------------------------------------------------------------------------
 % CONFIGURATIONS
-% Build from the repository root with: latexmk examples/cv.tex
+% Build from the repository root: make (or: latexmk cv.tex)
 %-------------------------------------------------------------------------------
 % A4 paper size by default, use 'letterpaper' for US letter
 \documentclass[11pt, a4paper]{awesome-cv}
@@ -51,7 +51,8 @@
 %	Comment any of the lines below if they are not required
 %-------------------------------------------------------------------------------
 % Available options: circle|rectangle,edge/noedge,left/right
-% \photo{./examples/profile.png}
+% Add assets/profile.png, then uncomment to show a photo in the header
+% \photo{assets/profile.png}
 \name{Canjia}{Huang}
 \position{Computer Graphics}
 \address{Xiamen University, No. 422 Siming South Road, Siming District, Xiamen, Fujian 361005, China}
@@ -61,7 +62,7 @@
 \email{huangcanjia0214@gmail.com}
 %\dateofbirth{January 1st, 1970}
 \homepage{https://canjia-huang.github.io/}
-\github{https://github.com/Canjia-Huang}
+\github{Canjia-Huang}
 % \linkedin{posquit0}
 % \gitlab{gitlab-id}
 % \stackoverflow{SO-id}{SO-name}
@@ -100,10 +101,10 @@
 %	CV/RESUME CONTENT
 %	Each section is imported separately, open each file in turn to modify content
 %-------------------------------------------------------------------------------
-\input{examples/cv/education.tex}
-\input{examples/cv/experience.tex}
-\input{examples/cv/publications.tex}
-\input{examples/cv/presentation.tex}
+\input{sections/education.tex}
+\input{sections/experience.tex}
+\input{sections/publications.tex}
+\input{sections/presentation.tex}
 
 %-------------------------------------------------------------------------------
 \end{document}

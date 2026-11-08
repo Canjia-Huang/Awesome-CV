@@ -1,20 +1,26 @@
-.PHONY: examples resume.pdf cv.pdf coverletter.pdf test clean distclean
+.PHONY: all pdf clean distclean docker docker-build
 
 LATEXMK = latexmk
-PYTHON = python3
+IMAGE   = awesome-cv
 
-examples:
+# Build build/cv.pdf from cv.tex with the settings in latexmkrc
+all: pdf
+
+pdf:
 	$(LATEXMK)
 
-resume.pdf cv.pdf coverletter.pdf:
-	$(LATEXMK) examples/$(@:.pdf=.tex)
-
-test: examples
-	$(LATEXMK) -outdir=build/tests tests/fixtures/*.tex
-	$(PYTHON) tests/check_pdfs.py
-
+# Remove auxiliary files, keep the PDF
 clean:
 	$(LATEXMK) -c
 
+# Remove auxiliary files and the PDF
 distclean:
 	$(LATEXMK) -C
+
+# Build inside the pinned TeX Live image (no local TeX installation required)
+docker-build:
+	docker build --pull --tag $(IMAGE) .
+
+docker:
+	docker run --rm --user "$$(id -u):$$(id -g)" \
+		--volume "$$PWD:/doc" $(IMAGE) make pdf

@@ -11,7 +11,6 @@ RUN rm -f /etc/apt/sources.list /etc/apt/sources.list.d/* \
         fonts-roboto \
         fonts-adobe-sourcesans3 \
         make \
-        python3-pymupdf \
     && rm -rf /var/lib/apt/lists/*
 
 # Keep font and TeX caches writable when running with the host user's UID.
@@ -20,4 +19,4 @@ ENV TEXMFVAR=/tmp/texmf-var \
     XDG_CACHE_HOME=/tmp/.cache
 
 WORKDIR /doc
-CMD ["make"]
+CMD ["make", "pdf"]

@@ -1,181 +1,114 @@
-<h1 align="center">
-  <a href="https://github.com/posquit0/Awesome-CV" title="AwesomeCV Documentation">
-    <img alt="AwesomeCV" src="https://github.com/posquit0/Awesome-CV/raw/master/icon.png" width="200px" height="200px" />
-  </a>
-  <br />
-  Awesome CV
-</h1>
+# Canjia Huang — Curriculum Vitae
 
-<p align="center">
-  LaTeX template for your outstanding job application
-</p>
+Personal CV of Canjia Huang, typeset with LuaLaTeX on top of the
+[Awesome CV](https://github.com/posquit0/Awesome-CV) class.
 
-<div align="center">
-  <a href="https://www.paypal.me/posquit0">
-    <img alt="Donate" src="https://img.shields.io/badge/Donate-PayPal-blue.svg" />
-  </a>
-  <a href="https://github.com/posquit0/Awesome-CV/actions/workflows/main.yml">
-    <img alt="GitHub Actions" src="https://github.com/posquit0/Awesome-CV/actions/workflows/main.yml/badge.svg" />
-  </a>
-  <a href="https://raw.githubusercontent.com/posquit0/Awesome-CV/master/examples/resume.pdf">
-    <img alt="Example Resume" src="https://img.shields.io/badge/resume-pdf-green.svg" />
-  </a>
-  <a href="https://raw.githubusercontent.com/posquit0/Awesome-CV/master/examples/cv.pdf">
-    <img alt="Example CV" src="https://img.shields.io/badge/cv-pdf-green.svg" />
-  </a>
-  <a href="https://raw.githubusercontent.com/posquit0/Awesome-CV/master/examples/coverletter.pdf">
-    <img alt="Example Coverletter" src="https://img.shields.io/badge/coverletter-pdf-green.svg" />
-  </a>
-</div>
+This repository is private and contains only the personal CV: the class file,
+one main document, its sections, and the build tooling. Templates, résumé and
+cover-letter examples, tests, and upstream automation have been removed.
 
-<br />
+## Layout
 
-## What is Awesome CV?
+```
+.
+├── cv.tex                 # Main document: personal info, colours, page setup
+├── sections/              # CV content, one file per section
+│   ├── education.tex
+│   ├── experience.tex
+│   ├── publications.tex
+│   └── presentation.tex
+├── assets/                # Optional photo (see below)
+├── awesome-cv.cls         # Template class (single source of truth)
+├── latexmkrc              # LuaLaTeX + SyncTeX + build/ output directory
+├── Makefile               # make / clean / distclean / docker
+├── Dockerfile             # Pinned TeX Live + fonts, used by CI
+├── luaotfload.conf        # Lets LuaLaTeX find fonts placed in this directory
+├── .github/workflows/main.yml
+├── .vscode/               # LaTeX Workshop workspace settings
+└── LICENCE                # CC BY-SA 4.0, inherited from the template
+```
 
-**Awesome CV** is LaTeX template for a **CV(Curriculum Vitae)**, **Résumé** or **Cover Letter** inspired by [Fancy CV](https://www.sharelatex.com/templates/cv-or-resume/fancy-cv). It is easy to customize your own template, especially since it is really written by a clean, semantic markup.
+## Requirements
 
+Awesome CV needs **LuaLaTeX with HarfBuzz**, driven by **latexmk**. XeLaTeX and
+pdfLaTeX are not supported. Install a current full
+[TeX Live](https://tug.org/texlive/) (or [MacTeX](https://tug.org/mactex/)) —
+TeX Live 2026 is the tested baseline — plus:
 
-## Donate
+* `lualatex`, `latexmk`, and the `fontawesome6` package
+* **Source Sans 3** and **Roboto**, as *static* desktop fonts with Regular,
+  Italic, Bold, Bold Italic, Light, and Light Italic faces. A variable-only
+  install may not expose the faces the class asks for.
+* Run `luaotfload-tool --update` if the fonts are installed but not found.
 
-Please help keep this project alive! Donations are welcome and will go towards further development of this project.
+Alternatively, drop the static font files here at the repository root;
+[luaotfload.conf](luaotfload.conf) makes them discoverable, which also works on
+Overleaf. Skip this section entirely if you use Docker.
 
-    PayPal: paypal.me/posquit0
+## Build
 
-*Thank you for your support!*
-
-## Preview
-
-#### Résumé
-
-You can see [PDF](https://raw.githubusercontent.com/posquit0/Awesome-CV/master/examples/resume.pdf)
-
-| Page. 1 | Page. 2 |
-|:---:|:---:|
-| [![Résumé](https://raw.githubusercontent.com/posquit0/Awesome-CV/master/examples/resume-0.png)](https://raw.githubusercontent.com/posquit0/Awesome-CV/master/examples/resume.pdf)  | [![Résumé](https://raw.githubusercontent.com/posquit0/Awesome-CV/master/examples/resume-1.png)](https://raw.githubusercontent.com/posquit0/Awesome-CV/master/examples/resume.pdf) |
-
-#### Cover Letter
-
-You can see [PDF](https://raw.githubusercontent.com/posquit0/Awesome-CV/master/examples/coverletter.pdf)
-
-| Without Sections | With Sections |
-|:---:|:---:|
-| [![Cover Letter(Traditional)](https://raw.githubusercontent.com/posquit0/Awesome-CV/master/examples/coverletter-0.png)](https://raw.githubusercontent.com/posquit0/Awesome-CV/master/examples/coverletter.pdf)  | [![Cover Letter(Awesome)](https://raw.githubusercontent.com/posquit0/Awesome-CV/master/examples/coverletter-1.png)](https://raw.githubusercontent.com/posquit0/Awesome-CV/master/examples/coverletter.pdf) |
-
-
-## Quick Start
-
-* [**Edit Résumé on OverLeaf.com**](https://www.overleaf.com/latex/templates/awesome-cv/tvmzpvdjfqxp)
-* [**Edit Cover Letter on OverLeaf.com**](https://www.overleaf.com/latex/templates/awesome-cv-cover-letter/pfzzjspkthbk)
-
-**_Note:_ These gallery templates may contain older source code. For this repository's version, upload its files and follow the Overleaf instructions below.**
-
-
-## How to Use
-
-#### Requirements
-
-Awesome CV uses **LuaLaTeX with HarfBuzz**, driven by **latexmk**. XeLaTeX and pdfLaTeX are not supported by this version of the class.
-
-Install a current full [TeX Live](https://tug.org/texlive/) distribution (or [MacTeX](https://tug.org/mactex/) on macOS), including `lualatex`, `latexmk`, and `fontawesome6`. TeX Live 2026 is the recommended starting point. `latexmk` also requires Perl, which is included with TeX Live on Windows. Make is optional.
-
-Install the **Source Sans 3** and **Roboto** font families, including Regular, Italic, Bold, Bold Italic, Light, and Light Italic. Use the static desktop OTF/TTF fonts from [Source Sans 3](https://github.com/adobe-fonts/source-sans/releases) and [Roboto](https://github.com/googlefonts/roboto/releases); installing only a variable font may not provide the named faces required by the class. Fonts must be visible to LuaLaTeX under these family names. After installing fonts, run `luaotfload-tool --update` if they are not found.
-
-Alternatively, place the static font files in the repository root. The included [luaotfload.conf](luaotfload.conf) enables discovery of fonts in the working directory, including files uploaded to Overleaf.
-
-The [Dockerfile](Dockerfile) provides TeX Live and the required fonts together. It is also used by CI, so Docker is the reference environment for reproducing builds locally.
-
-#### Usage
-
-Run commands from the **repository root**, where `latexmkrc` and `awesome-cv.cls` are located. Paths in the examples are relative to this directory.
+Run everything from the repository root, where `latexmkrc` and
+`awesome-cv.cls` live.
 
 ```bash
-latexmk
+make              # same as: latexmk
 ```
 
-This builds the cover letter, CV, and résumé into `build/coverletter.pdf`, `build/cv.pdf`, and `build/resume.pdf`. `make` runs the same command. Generated PDFs, logs, and SyncTeX files stay in `build/`; the committed PDFs in `examples/` are previews and are not overwritten.
-
-To build one document, or rebuild it automatically while editing:
+The result is `build/cv.pdf`; logs, `.aux`, `.fls` and `.synctex.gz` stay in
+`build/` and are git-ignored. To keep rebuilding while you edit:
 
 ```bash
-latexmk examples/resume.tex
-latexmk -pvc examples/resume.tex
+latexmk -pvc
 ```
 
-The existing `make resume.pdf`, `make cv.pdf`, and `make coverletter.pdf` shortcuts also write to `build/`. For your own document, run `latexmk your-cv.tex` from the repository root; keep its input and image paths relative to that root.
+`make clean` (or `latexmk -c`) removes auxiliary files but keeps the PDF;
+`make distclean` (or `latexmk -C`) removes the PDF as well.
 
-The shared [latexmkrc](latexmkrc) selects LuaLaTeX, enables SyncTeX, stops on compilation errors, and lets latexmk rerun the compiler and track dependencies. Repeating a build without changes skips compilation.
+### Docker
 
-Use `make clean` (or `latexmk -c`) to remove the examples' auxiliary files while keeping their PDFs. Use `make distclean` (or `latexmk -C`) to remove the generated example PDFs as well. To clean a custom document, pass its filename, for example `latexmk -C your-cv.tex`.
-
-#### Docker
-
-From the repository root, build the environment and compile:
+No local TeX installation required — the image pins TeX Live and both font
+families:
 
 ```bash
-docker build --tag awesome-cv .
-docker run --rm --user "$(id -u):$(id -g)" --volume "$PWD:/doc" awesome-cv
+make docker-build   # docker build --pull --tag awesome-cv .
+make docker         # compile into build/ on the host
 ```
 
-These commands work in a POSIX shell, including WSL on Windows. In PowerShell:
+The image is pinned to a multi-platform digest with extra packages from a dated
+Debian snapshot, so a rebuild resolves the same TeX and font sources. On Apple
+Silicon, add `--platform linux/amd64` to reproduce CI's architecture.
 
-```powershell
-docker build --tag awesome-cv .
-docker run --rm --volume "${PWD}:/doc" awesome-cv
-```
+### CI
 
-The image runs `make` by default. To build one document, append `latexmk examples/resume.tex` to `docker run`. Outputs are written to the host's `build/` directory. The image provides writable font and TeX caches for the non-root user used by the POSIX command and CI.
+[main.yml](.github/workflows/main.yml) builds the image and compiles `cv.pdf`
+on every push and pull request, then uploads it as the `cv` artifact. It can
+also be triggered manually from the Actions tab.
 
-The base image is pinned to a multi-platform digest, and additional Debian packages come from a dated snapshot. Rebuilding a checkout therefore uses the same TeX and font package sources. Native installations and Overleaf can differ from this baseline. CI uses Linux amd64; Docker on Apple Silicon uses the pinned arm64 image. To reproduce CI's architecture, add `--platform linux/amd64` to both Docker commands (emulation may be slower).
+### Editor
 
-This pins the toolchain, not the bytes of every PDF: examples use `\today`, and PDF metadata can include build timestamps. See [the build environment guide](docs/build-environment.md) for version inspection and dependency updates.
+Open the repository root in VS Code with the recommended
+[LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop)
+extension; the committed workspace settings build with `latexmk` from the root
+and put output in `build/`. On Overleaf, upload the repository, keep `cv.tex`
+as the main document at the project root, and select LuaLaTeX.
 
-#### Editors and Overleaf
+## Editing
 
-For **VS Code**, open the repository root as the workspace and install the recommended **LaTeX Workshop** extension. The committed workspace settings run latexmk from that root, use `latexmkrc`, and locate PDF/SyncTeX output in `build/`. Open `examples/resume.tex`, `examples/cv.tex`, or `examples/coverletter.tex` and run **Build LaTeX project**. Compilation magic comments are disabled in this workspace so they cannot bypass the shared recipe.
+* Personal information, colours, and page geometry: [`cv.tex`](cv.tex).
+* Section content: the matching file under [`sections/`](sections).
+* To add a photo, place it at `assets/profile.png` and uncomment the `\photo`
+  line in `cv.tex`.
+* The footer date uses `\today`; replace it with a literal date for a dated
+  application copy.
 
-For other editors, configure `latexmk` as the build command with the repository root as its working directory. The examples' `TS-program` comments identify LuaLaTeX for editors that use them; the full build settings live in `latexmkrc`.
+## Licence and credit
 
-For **Overleaf**:
+The class, the build configuration, and the overall design come from
+[Awesome CV](https://github.com/posquit0/Awesome-CV) by
+[Claud D. Park](https://github.com/posquit0), licensed under
+[CC BY-SA 4.0](LICENCE). This repository is a derivative work and stays under
+the same licence; keep [LICENCE](LICENCE) and the attribution in `cv.tex` and
+`awesome-cv.cls` intact.
 
-1. Upload the repository contents, keeping `awesome-cv.cls`, `latexmkrc`, and `luaotfload.conf` at the project root and preserving the `examples/` directory.
-2. Copy the desired main file, such as `examples/resume.tex`, to `resume.tex` at the project root and select that copy as the **Main document**. Overleaf builds from the main file's directory, so a root-level main file keeps input, image, and configuration paths consistent.
-3. Select **LuaLaTeX** and a current available **TeX Live** version in the compiler settings. Overleaf manages its own output location.
-4. If the required font faces are unavailable, upload the static OTF/TTF files at the project root. `luaotfload.conf` lets LuaLaTeX discover their family names. Overleaf's environment is managed separately from the Docker image.
-
-The root `awesome-cv.cls` is the source of truth. `examples/awesome-cv.cls` is a convenience symlink to it; it is not a second class to edit. If a ZIP tool or Windows checkout turns that symlink into a text file, omit the example-directory copy and keep the real class at the project root.
-
-#### Contributing
-
-Run `make test` before submitting changes. The Docker image includes the PDF inspection dependency; append `make test` to the Docker command above to run the same checks as CI. The suite checks page counts, text extraction, links, embedded fonts, compiler font warnings, and focused layout regressions. See [the test guide](tests/README.md) for native prerequisites and coverage.
-
-CI uploads PDFs, compiler logs, a JSON report, and page images from `build/` for review, including available diagnostics after a failure. Check the page images for layout changes; automated checks do not cover every visual detail. When changing build settings, keep `latexmkrc`, the editor configuration, the Dockerfile, and these instructions aligned.
-
-
-## Credit
-
-[**LaTeX**](https://www.latex-project.org) is a fantastic typesetting program that a lot of people use these days, especially the math and computer science people in academia.
-
-[**FontAwesome6 LaTeX Package**](https://github.com/braniii/fontawesome) is a LaTeX package that provides access to the [Font Awesome 6](https://fontawesome.com/v6/icons) icon set.
-
-[**Roboto**](https://github.com/google/roboto) is the default font on Android and ChromeOS, and the recommended font for Google’s visual language, Material Design.
-
-[**Source Sans 3**](https://github.com/adobe-fonts/source-sans) is a set of OpenType fonts that have been designed to work well in user interface (UI) environments.
-
-
-## Contact
-
-You are free to take my `.tex` file and modify it to create your own resume. Please don't use my resume for anything else without my permission, though!
-
-If you have any questions, feel free to join me at [`#posquit0` on Freenode](irc://irc.freenode.net/posquit0) and ask away. Click [here](https://kiwiirc.com/client/irc.freenode.net/posquit0) to connect.
-
-Good luck!
-
-
-## Maintainers
-- [posquit0](https://github.com/posquit0)
-- [OJFord](https://github.com/OJFord)
-
-
-## See Also
-
-* [Awesome Identity](https://github.com/posquit0/hugo-awesome-identity) - A single-page Hugo theme to introduce yourself.
+The CV text and its sections are personal content and are not licensed for
+reuse.

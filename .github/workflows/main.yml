@@ -1,8 +1,9 @@
-name: Compile PDFs
+name: Compile CV
 
 on:
   push: {}
   pull_request: {}
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -18,19 +19,14 @@ jobs:
     - name: Build TeX environment
       run: docker build --tag awesome-cv .
 
-    - name: Compile and check PDFs
+    - name: Compile cv.pdf
       run: |
         docker run --rm --user "$(id -u):$(id -g)" \
-          --volume "$PWD:/doc" awesome-cv make test
+          --volume "$PWD:/doc" awesome-cv make pdf
 
-    - uses: actions/upload-artifact@v7
-      if: always()
+    - name: Upload cv.pdf
+      uses: actions/upload-artifact@v7
       with:
-        name: examples
-        path: |
-          build/*.pdf
-          build/*.log
-          build/tests/*.pdf
-          build/tests/*.log
-          build/quality/
+        name: cv
+        path: build/cv.pdf
         if-no-files-found: error
