@@ -209,13 +209,12 @@
 \newcommand*{\headerquotestyle}[1]{{\fontsize{9pt}{1em}\bodyfont\itshape\color{darktext} #1}}
 \newcommand*{\footerstyle}[1]{{\fontsize{8pt}{1em}\footerfont\scshape\color{lighttext} #1}}
 \newcommand*{\sectionstyleface}[1]{{\fontsize{16pt}{1em}\bodyfont\bfseries #1}}
+% The whole section title takes the accent colour when highlighting is on
+% (it used to colour only the first three letters).
 \newcommand*{\sectionstyle}[1]{%
-  \def\@acvSectionTmp{#1}
   \ifthenelse{\boolean{acvSectionColorHighlight}}{%
-    \StrSplit{\@acvSectionTmp}{3}{\acvSectionStringAwesome}{\acvSectionStringPlain}%
-      \color{awesome}\sectionstyleface{\acvSectionStringAwesome%
-      \color{text}{\acvSectionStringPlain}}}%
-      {\color{text}\sectionstyleface{\@acvSectionTmp}}}
+    \color{awesome}\sectionstyleface{#1}}%
+    {\color{text}\sectionstyleface{#1}}}
 \newcommand*{\subsectionstyle}[1]{{\fontsize{12pt}{1em}\bodyfont\scshape\textcolor{text}{#1}}}
 \newcommand*{\paragraphstyle}{\fontsize{9pt}{1em}\bodyfontlight\upshape\color{text}}
 
@@ -246,12 +245,9 @@
 % For elements of the cover letter
 \newcommand*{\lettersectionstyleface}[1]{{\fontsize{14pt}{1em}\bodyfont\bfseries #1}}
 \newcommand*{\lettersectionstyle}[1]{%
-  \def\@acvLetterSectionTmp{#1}
   \ifthenelse{\boolean{acvSectionColorHighlight}}{%
-    \StrSplit{\@acvLetterSectionTmp}{3}{\acvLetterSectionStringAwesome}{\acvLetterSectionStringPlain}%
-      \color{awesome}\sectionstyleface{\acvLetterSectionStringAwesome%
-      \color{text}{\acvLetterSectionStringPlain}}}%
-      {\color{text}\lettersectionstyleface{\@acvLetterSectionTmp}}}
+    \color{awesome}\lettersectionstyleface{#1}}%
+    {\color{text}\lettersectionstyleface{#1}}}
 \newcommand*{\recipientaddressstyle}[1]{{\fontsize{9pt}{1em}\bodyfont\scshape\color{graytext} #1}}
 \newcommand*{\recipienttitlestyle}[1]{{\fontsize{11pt}{1em}\bodyfont\bfseries\color{darktext} #1}}
 \newcommand*{\lettertitlestyle}[1]{{\fontsize{10pt}{1em}\bodyfontlight\bfseries\color{darktext} \underline{#1}}}
