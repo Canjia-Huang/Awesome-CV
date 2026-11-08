@@ -27,7 +27,8 @@
 % wrap around it; the text returns to full width below the image.  wrapfig
 % cannot be used here (it refuses to work inside cventry's tabular cell), so
 % this macro sets a \parshape instead.  \acvfigindent is the left indent used
-% for every line of the paragraph.  The paragraph must be closed with \cvpar
+% for every line but the first (the first line uses \acvfigfirstindent).
+% The paragraph must be closed with \cvpar
 % (see below), otherwise the shape is already forgotten when TeX breaks the
 % paragraph into lines.
 %-------------------------------------------------------------------------------
@@ -38,7 +39,9 @@
 \newcount \acvfiglines
 \newcount \acvfigcnt
 \newdimen \acvfigindent
-\setlength{\acvfigindent}{0pt}% left indent of the wrapped paragraph
+\setlength{\acvfigindent}{0pt}% left indent of every line but the first
+\newdimen \acvfigfirstindent
+\setlength{\acvfigfirstindent}{0pt}% left indent of the first line
 \newcommand{\acvfigps}{}
 % append <n> "<indent> <text width>" pairs to \acvfigps
 \def\acvfigbuild#1{%
@@ -54,15 +57,18 @@
   \acvfigcnt=\baselineskip
   \acvfiglines=\numexpr(\acvfiglines+\acvfigcnt-1)/\acvfigcnt\relax
   \setlength{\acvfigtextwd}{\dimexpr\linewidth-\acvfigindent-\acvfigwd-1.2em\relax}%
-  % Shorten that many lines, then go back to the full width.
-  \def\acvfigps{}%
-  \acvfigbuild{\acvfiglines}%
+  % Shorten that many lines, then go back to the full width.  The first line
+  % keeps its own indent (so a bullet there can start at the left margin).
+  \def\acvfigps{\acvfigfirstindent
+    \dimexpr\linewidth-\acvfigfirstindent-\acvfigwd-1.2em\relax\space}%
+  \acvfigcnt=\numexpr\acvfiglines-1\relax
+  \acvfigbuild{\acvfigcnt}%
   \parshape\numexpr\acvfiglines+1\relax \acvfigps
     \acvfigindent\dimexpr\linewidth-\acvfigindent\relax
   % Draw the image at the right edge of the text block, taking no space.
   \smash{\rlap{%
-    % the line starts at \acvfigindent, so subtract it to end at the right margin
-    \hspace*{\dimexpr\linewidth-\acvfigindent-\acvfigwd\relax}%
+    % the line starts at \acvfigfirstindent, so subtract it to end at the right margin
+    \hspace*{\dimexpr\linewidth-\acvfigfirstindent-\acvfigwd\relax}%
     \raisebox{\dimexpr-\ht\acvfigbox\relax}[0pt][0pt]{\usebox\acvfigbox}}}%
 }
 % \par in disguise: cventry's arguments are not \long, so a plain \par inside

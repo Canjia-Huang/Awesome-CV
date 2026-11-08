@@ -15,13 +15,12 @@
     {\ACMTOG}
     {Sep. 14, 2026}
     {
-        \justifying
-        \setlength{\parindent}{0pt}
-        \setlength{\acvfigindent}{2ex+1em}% continuation lines align with the bullet text
-        \rightfig[0.25]{assets/representation-image-offset-mesh.png}
-        \makebox[0pt][r]{\textbullet\hspace{0.6em}}% bullet, as in the cvitems entries
-        Mesh offsetting plays a pivotal role in CAD/CAM applications. This article introduces an efficient method for generating high-precision, predominantly topologically correct offset meshes from triangular meshes, employing direct offset and point representation. By offsetting sampled points of the input triangular mesh along multiple normals, we create points on a superset of the offset surface. Subsequent feature enhancement captures and enhances features on the point set, facilitating the tailored restricted power diagram-based reconstruction of the offset surface and features. Benchmarking on public datasets, along with comprehensive comparisons with state-of-the-art methods, demonstrates the accuracy, effectiveness, and robustness of our approach. Experimental results showcase its capability to handle diverse models and support arbitrary offset distances, producing predominantly topologically correct offset meshes with small approximation errors while preserving sharp features and open boundaries–even in challenging regions such as thin plates and thin tubular structures.
-        \cvpar
+        \begin{cvitems}
+        \item \setlength{\acvfigindent}{\leftmargin}%
+        \setlength{\acvfigfirstindent}{\leftmargin}%
+        \rightfig[0.25]{assets/representation-image-offset-mesh.png}%
+        Mesh offsetting plays a pivotal role in CAD/CAM applications. This article introduces an efficient method for generating high-precision, predominantly topologically correct offset meshes from triangular meshes, employing direct offset and point representation. By offsetting sampled points of the input triangular mesh along multiple normals, we create points on a superset of the offset surface. Subsequent feature enhancement captures and enhances features on the point set, facilitating the tailored restricted power diagram-based reconstruction of the offset surface and features. Benchmarking on public datasets, along with comprehensive comparisons with state-of-the-art methods, demonstrates the accuracy, effectiveness, and robustness of our approach. Experimental results showcase its capability to handle diverse models and support arbitrary offset distances, producing predominantly topologically correct offset meshes with small approximation errors while preserving sharp features and open boundaries–even in challenging regions such as thin plates and thin tubular structures.\cvpar
+        \end{cvitems}
     }
 
 \cventry
@@ -30,13 +29,12 @@
     {\arXiv}
     {Mar. 13, 2026}
     {
-        \justifying
-        \setlength{\parindent}{0pt}
-        \setlength{\acvfigindent}{2ex+1em}% continuation lines align with the bullet text
-        \rightfig[0.25]{assets/representation-image-neurframe.png}
-        \makebox[0pt][r]{\textbullet\hspace{0.6em}}% bullet, as in the cvitems entries
-        Structured meshes, composed of quadrilateral elements in 2D and hexahedral elements in 3D, are widely used in industrial applications and engineering simulations due to their regularity and superior accuracy in finite element analysis. Generating high-quality structured meshes, however, remains challenging, especially for complex geometries and singularities. Field-guided approaches, which construct cross fields in 2D and frame fields in 3D to encode element orientation, are promising but are typically defined on discrete meshes, limiting continuity and computational efficiency. To address these challenges, we introduce \emph{NeurFrame}, a neural framework that represents frame fields continuously over the domain, supporting infinite-resolution evaluation. Trained in a self-supervised manner on discrete mesh samples, NeurFrame produces smooth, high-quality frame fields without relying on dense tetrahedral discretizations. The resulting fields simultaneously guide high-quality quadrilateral surface meshes and hexahedral volumetric meshes, with fewer and better-distributed singularities. By using a single network, NeurFrame also achieves lower computational cost compared to prior self-supervised neural methods that jointly optimize multiple fields.
-        \cvpar
+        \begin{cvitems}
+        \item \setlength{\acvfigindent}{\leftmargin}%
+        \setlength{\acvfigfirstindent}{\leftmargin}%
+        \rightfig[0.25]{assets/representation-image-neurframe.png}%
+        Structured meshes, composed of quadrilateral elements in 2D and hexahedral elements in 3D, are widely used in industrial applications and engineering simulations due to their regularity and superior accuracy in finite element analysis. Generating high-quality structured meshes, however, remains challenging, especially for complex geometries and singularities. Field-guided approaches, which construct cross fields in 2D and frame fields in 3D to encode element orientation, are promising but are typically defined on discrete meshes, limiting continuity and computational efficiency. To address these challenges, we introduce \emph{NeurFrame}, a neural framework that represents frame fields continuously over the domain, supporting infinite-resolution evaluation. Trained in a self-supervised manner on discrete mesh samples, NeurFrame produces smooth, high-quality frame fields without relying on dense tetrahedral discretizations. The resulting fields simultaneously guide high-quality quadrilateral surface meshes and hexahedral volumetric meshes, with fewer and better-distributed singularities. By using a single network, NeurFrame also achieves lower computational cost compared to prior self-supervised neural methods that jointly optimize multiple fields.\cvpar
+        \end{cvitems}
     }
 
 %---------------------------------------------------------
