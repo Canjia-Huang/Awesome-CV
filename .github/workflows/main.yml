@@ -1,12 +1,26 @@
 name: Compile CV
 
 on:
-  push: {}
-  pull_request: {}
+  push:
+    branches: [master]
+    paths:
+      - "cv.tex"
+      - "sections/**"
+      - "assets/**"
+      - "awesome-cv.cls"
+      - "latexmkrc"
+      - "luaotfload.conf"
+      - "Dockerfile"
+      - ".github/workflows/main.yml"
   workflow_dispatch: {}
 
 permissions:
   contents: read
+
+# A new push cancels the run that is still building the previous commit.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:

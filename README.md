@@ -81,8 +81,12 @@ Silicon, add `--platform linux/amd64` to reproduce CI's architecture.
 ### CI
 
 [main.yml](.github/workflows/main.yml) builds the image and compiles `cv.pdf`
-on every push and pull request, then uploads it as the `cv` artifact. It can
-also be triggered manually from the Actions tab.
+on every push to `master` that touches the CV sources or the build files
+(`cv.tex`, `sections/`, `assets/`, `awesome-cv.cls`, `latexmkrc`,
+`luaotfload.conf`, `Dockerfile`, or the workflow itself), then uploads it as the
+`cv` artifact. Runs are keyed to the branch, so a new push cancels the previous
+build instead of queueing. The workflow can also be started manually from the
+Actions tab.
 
 ### Editor
 
