@@ -2,19 +2,26 @@
   "latex-workshop.latex.build.fromFolder": ".",
   "latex-workshop.latex.build.enableMagicComments": false,
   "latex-workshop.latex.outDir": "%WORKSPACE_FOLDER%/build",
-  "latex-workshop.latex.recipe.default": "latexmk (Awesome CV)",
+
+  // Build the math-garden variant by default (Build / Ctrl+Alt+B and auto build
+  // on save). `make` in a terminal still builds the plain build/cv.pdf.
+  "latex-workshop.latex.recipe.default": "latexmk (garden)",
   "latex-workshop.latex.recipes": [
     {
-      "name": "latexmk (Awesome CV)",
-      "tools": ["awesome-cv-latexmk"]
+      "name": "latexmk (garden)",
+      "tools": ["awesome-cv-latexmk-garden"]
     }
   ],
   "latex-workshop.latex.tools": [
     {
-      "name": "awesome-cv-latexmk",
+      "name": "awesome-cv-latexmk-garden",
       "command": "latexmk",
-      "args": ["%DOC_EXT%"],
+      "args": ["cv-florilegium.tex"],
       "cwd": "%WORKSPACE_FOLDER%"
     }
-  ]
+  ],
+
+  // The recipe compiles cv-florilegium.tex, so tell the extension to look for
+  // build/cv-florilegium.pdf, its .log/.aux/.fls and .synctex.gz.
+  "latex-workshop.latex.jobname": "cv-florilegium"
 }

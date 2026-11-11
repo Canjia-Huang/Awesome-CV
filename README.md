@@ -12,15 +12,18 @@ cover-letter examples, tests, and upstream automation have been removed.
 ```
 .
 ├── cv.tex                 # Main document: personal info, colours, page setup
+├── cv-florilegium.tex     # Optional math-garden variant (same content)
 ├── sections/              # CV content, one file per section
 │   ├── education.tex
 │   ├── experience.tex
 │   ├── publications.tex
 │   └── presentation.tex
 ├── assets/                # Optional photo (see below)
+├── vendor/florilegium/    # Vendored florilegium 2.0.1 (MIT) for `make garden`
+├── tools/vendor-florilegium.sh  # Refresh that copy from a release
 ├── awesome-cv.cls         # Template class (single source of truth)
 ├── latexmkrc              # LuaLaTeX + SyncTeX + build/ output directory
-├── Makefile               # make / clean / distclean / docker
+├── Makefile               # make / garden / vendor-florilegium / clean / docker
 ├── Dockerfile             # Pinned TeX Live + fonts, used by CI
 ├── luaotfload.conf        # Lets LuaLaTeX find fonts placed in this directory
 ├── .github/workflows/main.yml
@@ -54,7 +57,8 @@ Run everything from the repository root, where `latexmkrc` and
 make              # same as: latexmk
 ```
 
-The result is `build/cv.pdf`; logs, `.aux`, `.fls` and `.synctex.gz` stay in
+The result is `build/cv.pdf`; `make garden` builds the optional math-garden
+variant described below. Logs, `.aux`, `.fls` and `.synctex.gz` stay in
 `build/` and are git-ignored. To keep rebuilding while you edit:
 
 ```bash
@@ -78,6 +82,77 @@ The image is pinned to a multi-platform digest with extra packages from a dated
 Debian snapshot, so a rebuild resolves the same TeX and font sources. On Apple
 Silicon, add `--platform linux/amd64` to reproduce CI's architecture.
 
+### Math garden (optional)
+
+A second PDF, `build/cv-florilegium.pdf`, decorates the CV with florilegium's
+`theme=math`: polyhedra, Koch curves, knots, Petersen graphs, equations and
+glyphs in the CV's blue and copper. The text is untouched — same A4 page, same
+margins, same 18.2 cm column, same page breaks as `build/cv.pdf`.
+
+```bash
+make garden         # same as: latexmk cv-florilegium.tex
+```
+
+On A4 an 18.2 cm column leaves only 1.4 cm at each side, too narrow for the
+theme's glyphs, so the garden goes where the page is genuinely blank:
+
+* **page 1** — the two empty pockets either side of the header get a cluster
+  each;
+* **page 2** — the free space under the text (`\florilegiumtextend`) fills edge
+  to edge.
+
+How it is wired:
+
+* [cv-florilegium.tex](cv-florilegium.tex) defines `\withflorilegium` and inputs
+  [cv.tex](cv.tex); the content stays in one place.
+* `cv.tex` loads `florilegium` with `grown, theme=math, density=0.9,
+  intensity=0.9`, sets its `ink` to the CV's blue, and calls
+  `\florilegiumtextend` at the end.
+* The class's `red`, `green` and `blue` are reset to pure primaries.
+  florilegium 2.0.1 builds a math glyph's colour as
+  `text={rgb,255:red,R;green,G;blue,B}`, which xcolor reads as a mix of the
+  colours with those names; Awesome CV's pastel versions turn every glyph teal,
+  purple or red. Nothing else in this CV uses those names.
+* A small Lua patch pins the garden to the blank space: the garden's own margin
+  column moves to the paper edge (`colright = 0.3`), its copper head rule goes
+  off-page, a page with no free text gets no footer band, and page 1 gets its two
+  header pockets as extra regions. Each pocket is listed twice, because the theme
+  sizes its fill from the regions' area — twice the area, twice the motifs in the
+  same pocket. This touches package internals and is pinned to the vendored
+  2.0.1.
+
+Knobs, in the `\ifdefined\withflorilegium` blocks of `cv.tex`:
+
+* `density=0.05…1` — how much grows (`0.9` here); `intensity=0.3…1` — how pale
+  it is.
+* `theme=geometric` — the other theme in 2.0.1 (flat, straight-edged).
+* `\def\florilegiumseed{7}` before `\usepackage` — a different garden for the
+  whole document; by default page *n* always grows the same garden.
+
+The runtime files are vendored in `vendor/florilegium/` — `florilegium.sty`, its
+Lua modules and the MIT licence, 640 KB in all — and `latexmkrc` puts that
+directory on `TEXINPUTS`/`LUAINPUTS`, so builds work offline, from a GitHub ZIP
+and on Overleaf, with no `tlmgr install`. [vendor/florilegium/VERSION](vendor/florilegium/VERSION)
+records the release, its source URL and the archive's SHA-256. To move to another
+release:
+
+```bash
+make vendor-florilegium TAG=v2.0.2
+```
+
+[the script](tools/vendor-florilegium.sh) downloads that release's
+`florilegium.zip`, checks that its `\ProvidesPackage` version matches the tag,
+and syncs only the runtime files — a git submodule would pull the whole 69 MB
+repository for the same 640 KB.
+
+Caveats. The 1.4 cm side margins stay empty: at that width the math theme can
+only place glyphs too large for the strip, and they collide with the text. The
+`sections` option patches the standard `\@sect`, which Awesome CV never calls —
+`\cvsection` draws its own heading — so flowers beside headings never appear.
+Delete `\florilegiumtextend` and the last page is plain again. The vendored copy
+is release 2.0.1: the Gothic tracery and shells described in the project's
+current README live on its `main` branch and are not in this release.
+
 ### CI
 
 [main.yml](.github/workflows/main.yml) builds the image and compiles `cv.pdf`
@@ -99,9 +174,16 @@ publish Pages, and switching the repository to private unpublishes the site.
 
 Open the repository root in VS Code with the recommended
 [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop)
-extension; the committed workspace settings build with `latexmk` from the root
-and put output in `build/`. On Overleaf, upload the repository, keep `cv.tex`
-as the main document at the project root, and select LuaLaTeX.
+extension. [.vscode/settings.json](.vscode/settings.json) builds the garden by
+default: its only recipe runs `latexmk cv-florilegium.tex` from the root, and
+`latex-workshop.latex.jobname` is `cv-florilegium`, so Build (Ctrl+Alt+B), View
+PDF and auto build on save all read `build/cv-florilegium.pdf` (log, aux and
+SyncTeX included). For the plain CV, run `make` in the integrated terminal; to
+preview *it* in VS Code instead, set `latex-workshop.latex.jobname` to `cv` and
+put `%DOC_EXT%` back in the tool's `args`.
+
+On Overleaf, upload the repository, keep `cv.tex` as the main document at the
+project root, and select LuaLaTeX.
 
 ## Editing
 
@@ -123,3 +205,7 @@ the same licence; keep [LICENCE](LICENCE) and the attribution in `cv.tex` and
 
 The CV text and its sections are personal content and are not licensed for
 reuse.
+
+The optional math garden uses [florilegium](https://github.com/kevinraymond/florilegium)
+2.0.1 by [Kevin Raymond](https://github.com/kevinraymond), MIT licensed; its
+licence is kept at [vendor/florilegium/LICENSE](vendor/florilegium/LICENSE).

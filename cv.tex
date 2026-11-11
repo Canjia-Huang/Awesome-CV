@@ -24,7 +24,67 @@
 % Keep a section title from being left alone at the bottom of a page.
 \usepackage{needspace}
 
-% Configure page margins with geometry
+%-------------------------------------------------------------------------------
+% OPTIONAL: procedural math garden (florilegium)
+% Build this variant with `make garden` (or `latexmk cv-florilegium.tex`), which
+% defines \withflorilegium before \input-ting this file. Without it the CV is
+% unchanged: no package, no page setup change.
+% The page keeps its A4 layout and 18.2cm text column. On A4 that leaves no side
+% margin for a garden, so the math theme decorates the blank space under the last
+% page's text instead (\florilegiumtextend at the end of this file).
+%-------------------------------------------------------------------------------
+\ifdefined\withflorilegium
+  \usepackage[grown, theme=math, density=0.9, intensity=0.9]{florilegium}
+  % florilegium 2.0.1 grows in the wider side margin and draws the same garden
+  % on every page. This CV keeps its 18.2cm text column, so there is no wide
+  % margin: the blank space on page 1 is the two pockets either side of the
+  % header, and elsewhere it is the free space under the last page's text.
+  % Three small patches, pinned to the vendored 2.0.1:
+  %  - geometry(): the garden's own column moves to the paper edge (in a 1.4cm
+  %    margin it would hold only stray glyphs), its copper head rule goes
+  %    off-page;
+  %  - regions(): a page with no free text space gets no footer band, whose few
+  %    dots would otherwise land on the footer line;
+  %  - field(): add the two header pockets on page 1 (\count0 is the sheet being
+  %    shipped). Each is listed twice: the theme sizes its fill from the regions'
+  %    area, so twice the area means twice the motifs in the same two pockets.
+  % (No Lua -- comments or # operators inside \directlua: TeX would eat them.)
+  \directlua{
+    local flo = florilegium
+    local grow = require("florilegium-grow")
+    local lastg
+    local geometry = flo.geometry
+    flo.geometry = function()
+      local g = geometry()
+      g.colright = 0.3
+      g.headrule = g.ph + 5
+      lastg = g
+      return g
+    end
+    local regions = grow.regions
+    grow.regions = function(g, layout)
+      local rects, col, foot, spill, fx1 = regions(g, layout)
+      if spill == nil then
+        foot = { foot[1], foot[2], foot[3], foot[2] }
+      end
+      return rects, col, foot, spill, fx1
+    end
+    local field = grow.field
+    grow.field = function(list)
+      local g = lastg
+      if g and tex.count[0] == 1 then
+        local L, R, H = g.textleft, g.textright, g.ph
+        for _ = 1, 2 do
+          table.insert(list, { L + 0.05, H - 3.05, L + 3.05, H - 0.45 })
+          table.insert(list, { R - 3.05, H - 3.05, R - 0.05, H - 0.45 })
+        end
+      end
+      return field(list)
+    end
+  }
+\fi
+% Configure page margins with geometry (unchanged: the garden uses the free
+% space below the last page's text, not a margin column)
 \geometry{left=1.4cm, top=.8cm, right=1.4cm, bottom=1.8cm, footskip=.5cm}
 
 % Color for highlights (blue theme)
@@ -33,6 +93,21 @@
 \definecolor{awesome}{HTML}{1565C0}
 % \colorlet{awesome}{awesome-skyblue}   % the template's own blue, brighter
 % \definecolor{awesome}{HTML}{CA63A8}   % or any other colour
+
+% The garden's ink (with \withflorilegium): the CV's own blue instead of the
+% package's Delft blue, so garden and headings share one hue.
+\ifdefined\withflorilegium
+  \definecolor{ink}{HTML}{1565C0}
+  % florilegium 2.0.1 colours the math theme's TeX glyphs with
+  % text={rgb,255:red,R;green,G;blue,B}, which xcolor reads as a mix of the
+  % colours named red, green and blue. This class redefines those three to
+  % pastels (awesome-cv.cls, "Basic colors"), so every glyph would come out
+  % teal, purple or red. Restore the primaries the mix needs. Nothing else in
+  % this CV uses \color{red|green|blue}.
+  \definecolor{red}{rgb}{1,0,0}
+  \definecolor{green}{rgb}{0,1,0}
+  \definecolor{blue}{rgb}{0,0,1}
+\fi
 
 % Colors for text
 % Uncomment if you would like to specify your own color
@@ -116,6 +191,12 @@
 \input{sections/experience.tex}
 \input{sections/publications.tex}
 \input{sections/presentation.tex}
+
+% With the garden on: let it also fill the free space below the
+% text on the last page (must come at the very end of the text).
+\ifdefined\withflorilegium
+  \florilegiumtextend
+\fi
 
 %-------------------------------------------------------------------------------
 \end{document}
