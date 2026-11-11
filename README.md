@@ -155,20 +155,25 @@ current README live on its `main` branch and are not in this release.
 
 ### CI
 
-[main.yml](.github/workflows/main.yml) builds the image and compiles `cv.pdf`
-on every push to `master` that touches the CV sources or the build files
-(`cv.tex`, `sections/`, `assets/`, `awesome-cv.cls`, `latexmkrc`,
-`luaotfload.conf`, `Dockerfile`, or the workflow itself), then uploads it as the
-`cv` artifact. Runs are keyed to the branch, so a new push cancels the previous
-build instead of queueing. The workflow can also be started manually from the
-Actions tab.
+[main.yml](.github/workflows/main.yml) builds the image and compiles both PDFs
+(`make pdf garden`) on every push to `master` that touches the CV sources, the
+vendored package or the build files (`cv.tex`, `cv-florilegium.tex`,
+`sections/`, `assets/`, `vendor/`, `awesome-cv.cls`, `latexmkrc`,
+`luaotfload.conf`, `Makefile`, `Dockerfile`, or the workflow itself), then
+uploads them as the `cv` artifact. Runs are keyed to the branch, so a new push
+cancels the previous build instead of queueing. The workflow can also be started
+manually from the Actions tab.
 
-The same run publishes `cv.pdf` to GitHub Pages at
-<https://canjia-huang.github.io/Awesome-CV/cv.pdf> — a stable link that always
-serves the PDF from the latest successful `master` build. The site root
-redirects to it. Pages must be enabled once under **Settings → Pages → Build and
-deployment → Source: GitHub Actions**; on Free plans a private repository cannot
-publish Pages, and switching the repository to private unpublishes the site.
+The same run publishes both to GitHub Pages:
+
+* <https://canjia-huang.github.io/Awesome-CV/cv-florilegium.pdf> — the math garden
+* <https://canjia-huang.github.io/Awesome-CV/cv.pdf> — the plain CV
+
+Both are stable links that always serve the latest successful `master` build,
+and the site root lists them. Pages must be enabled once under **Settings →
+Pages → Build and deployment → Source: GitHub Actions**; on Free plans a private
+repository cannot publish Pages, and switching the repository to private
+unpublishes the site.
 
 ### Editor
 

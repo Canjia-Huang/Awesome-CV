@@ -5,18 +5,21 @@ on:
     branches: [master]
     paths:
       - "cv.tex"
+      - "cv-florilegium.tex"
       - "sections/**"
       - "assets/**"
+      - "vendor/**"
       - "awesome-cv.cls"
       - "latexmkrc"
       - "luaotfload.conf"
+      - "Makefile"
       - "Dockerfile"
       - ".github/workflows/main.yml"
   workflow_dispatch: {}
 
 permissions:
   contents: read
-  pages: write      # publish the built PDF to GitHub Pages
+  pages: write      # publish the built PDFs to GitHub Pages
   id-token: write   # OIDC token required by actions/deploy-pages
 
 # A new push cancels the run that is still building the previous commit.
@@ -35,30 +38,52 @@ jobs:
     - name: Build TeX environment
       run: docker build --tag awesome-cv .
 
-    - name: Compile cv.pdf
+    - name: Compile the CVs
       run: |
         docker run --rm --user "$(id -u):$(id -g)" \
-          --volume "$PWD:/doc" awesome-cv make pdf
+          --volume "$PWD:/doc" awesome-cv make pdf garden
 
-    - name: Upload cv.pdf
+    - name: Upload the PDFs
       uses: actions/upload-artifact@v7
       with:
         name: cv
-        path: build/cv.pdf
+        path: |
+          build/cv.pdf
+          build/cv-florilegium.pdf
         if-no-files-found: error
 
-    # Publish build/cv.pdf as a stable URL:
-    # https://canjia-huang.github.io/Awesome-CV/cv.pdf
+    # Publish both PDFs as stable URLs:
+    # https://canjia-huang.github.io/Awesome-CV/cv.pdf             (plain)
+    # https://canjia-huang.github.io/Awesome-CV/cv-florilegium.pdf (math garden)
     - name: Stage Pages site
       run: |
         mkdir -p site
         cp build/cv.pdf site/cv.pdf
+        cp build/cv-florilegium.pdf site/cv-florilegium.pdf
         cat > site/index.html <<'HTML'
         <!doctype html>
         <meta charset="utf-8">
-        <title>Canjia Huang - CV</title>
-        <meta http-equiv="refresh" content="0; url=cv.pdf">
-        <p><a href="cv.pdf">Canjia Huang - Curriculum Vitae (PDF)</a></p>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Canjia Huang &mdash; Curriculum Vitae</title>
+        <style>
+          body { margin: 4rem auto; max-width: 34rem; padding: 0 1.25rem;
+                 font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+                 color: #333; }
+          h1 { font-size: 1.5rem; margin-bottom: .25rem; }
+          p.lead { margin-top: 0; color: #666; }
+          ul { padding-left: 1.25rem; }
+          li { margin: .9rem 0; }
+          small { color: #666; }
+        </style>
+        <h1>Canjia Huang</h1>
+        <p class="lead">Curriculum Vitae</p>
+        <ul>
+          <li><a href="cv-florilegium.pdf">CV with the math garden</a><br>
+              <small>the same CV with florilegium's theme=math in the header
+              pockets and under the last page's text</small></li>
+          <li><a href="cv.pdf">CV, plain</a><br>
+              <small>the same content without the garden</small></li>
+        </ul>
         HTML
 
     - name: Upload Pages artifact
